@@ -1,0 +1,295 @@
+#nav {
+    list-style-type: none;
+     margin-left:20%; 
+}
+#nav li {
+    display: block;
+}
+#nav li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color:white;
+    font-size: 18px;
+}
+#nav li:hover {
+    background: green;
+}
+#nav dl {
+    margin-bottom: 0;
+}
+#nav ul {
+    position: absolute;
+    padding: 0;
+    left: 0;
+    display: none;
+}
+
+#nav li:hover ul {
+    display: block;
+    text-align: center;
+}
+#navbar {
+    list-style-type: none;
+     margin-left:20%; 
+}
+#navbar li {
+    display: block;
+}
+#navbar li a {
+    display: block;
+    padding: 5px 10px;
+    text-decoration: none;
+    color:black;
+}
+#navbar li:hover {
+    background: green;
+}
+#navbar dl {
+    margin-bottom: 0;
+}
+#navbar ul {
+    position: absolute;
+    padding: 0;
+    left: 0;
+    display: none;
+}
+
+#navbar li:hover ul {
+    display: block;
+    text-align: center;
+}
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+header {
+    position: fixed;
+    width: 100%;
+    background-color: black;
+}
+header h1 {
+    width:40%;
+    float: left;
+    color:white;
+    padding:10px;
+    font-family:arial ;
+    font-size: 25px;
+}
+#mid {
+    padding-top: 48px;
+    width: 100%;
+}
+#midCustomer {
+    padding-top: 48px;
+    width: 100%;
+}
+#section {
+    position: fixed;
+    width:20%;
+    height:570px;
+    float :left;
+    background-color: lightgrey;
+}
+#sectionCustomer {
+    position: fixed;
+    width:20%;
+    height:570px;
+    float :left;
+    background-color:   #8686ac;
+    color:#14141f;
+}
+#aside {
+    width: 80%;
+    height:auto;
+    float: right;
+     margin-bottom: 70px;
+}
+footer {
+   position: fixed;
+   left: 0;
+   bottom: 2%;
+   width: 100%;
+   background-color: black;
+   color: white;
+   text-align: center;
+}
+footer p {
+    text-align: center;
+    padding: 10px;
+    font-size:20px;
+    color: white;
+}
+.tiles {
+    width:100%;
+    text-align: center;
+}
+.tiles .part {
+    width: 18%;
+    margin-top: 2%;
+    margin-left:5%;
+    height: 170px;
+    float: left;
+    background-color: #11a43d;
+    border-radius: 2%;
+    color:white;
+}
+.tiles .part p {
+    margin:14% 0%;
+    font-size: 18px;
+}
+.tiles .part .lnk {
+    padding: 12px;
+    background-color: #0f9337;
+}
+.tiles .part a:hover {
+    color:black;
+}
+.tilesCustomer {
+    width:100%;
+    text-align: center;
+}
+.tilesCustomer .part {
+    width: 18%;
+    margin-top: 2%;
+    margin-left:5%;
+    height: 170px;
+    float: left;
+    background-color: #5a5a8c;
+    border-radius: 2%;
+    color:white;
+}
+.tilesCustomer .part p {
+    margin:14% 0%;
+    font-size: 18px;
+}
+.tilesCustomer .part .lnk {
+    padding: 12px;
+    background-color: #14141f;
+}
+.tilesCustomer .part a:hover {
+    color:green;
+}
+header ul {
+    width:50%;
+    float: left; 
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+header li {
+  float: left;
+}
+
+header li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.active {
+  background-color: #4CAF50;
+}
+#desc {
+    color:black;
+}
+#wrapper {
+    text-align: center;
+    margin-top: 5%;
+}
+#form {
+    background-color: rgba(201, 191, 191, 0.883);
+    margin:0% 30%;
+    padding: 5%;
+    font-size: 20px;
+    border-radius: 8%;
+}
+#form p {
+    padding: 2%;
+}
+#form input {
+    width: 70%;
+    padding: 5px;
+}
+.login {
+    width: 90%;
+}
+#form .name {
+    margin-left: 30px;
+}
+.register {
+    width: 90%;
+    padding: 5px;
+}
+.form {
+    padding: 3%;
+}
+.form p {
+    margin: 1%;
+    font-size: 20px;
+}
+.form input {
+    padding: 5px;
+}
+#error {
+    color:white;
+    font-size: 20px;
+    border:1px solid  #FF5733;
+    background-color: #FF5733;
+    width:85%;
+    margin:2% 5%;
+    padding: 5px;
+    text-align: center;
+}
+#aside table.tbl {
+    width:100%;
+    text-align: center;
+}
+.tbl {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tbl td, .tbl th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tbl tr:nth-child(even){background-color: #f2f2f2;}
+
+.tbl tr:hover {background-color: #ddd;}
+
+.tbl th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #339933;
+  color: white;
+}
+.sort {
+    font-size:20px;
+}
+.invoicedetail {
+    width:50%;
+    margin:5%;
+    background-color: green;
+    padding: 5%;
+    color:white;
+    border-radius: 8%;
+}
+.invoicedetail p {
+    padding: 1.5%;
+}
+.invoicedetail h2 {
+    padding: 1.5%;
+}
+.invoicedetail .print {
+   padding: 5px 20px;
+   border-radius: 4px;
+   font-size: 15px;
+}
