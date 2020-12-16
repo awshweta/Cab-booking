@@ -5,6 +5,15 @@ $location = new Location();
 $data = array();
 $arr = $location->getAvailableLocation($db->conn);
 $arr1 = $location->getAvailableLocation($db->conn);
+$r = false;
+if (isset($_SESSION['user'])) {
+	if($_SESSION['user']['role'] == 1) {
+		header("Location:adminDashboard.php");
+	}
+}
+else {
+	$r = false;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,20 +30,23 @@ $arr1 = $location->getAvailableLocation($db->conn);
 <body>
 	<header>
 		<nav class="navbar navbar-expand-sm navbar-expand-sm bg-dark navbar-dark">
-			<span class="a bg-dark text-white">CED<span class="b bg-dark text-primary">CAB</span></span>
+			<h1><span class="a bg-dark text-white">CED<span class="b bg-dark text-primary">CAB</span></span></h1>
 			<a class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
 			</a>
 			<div class="n collapse navbar-collapse" id="collapsibleNavbar">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item pull-sm-right">
-						<a class="nav-link text-white" href="customerDashboard.php">Home</a>
-					</li>
-					<li class="nav-item pull-sm-right">
 						<?php if(isset($_SESSION['user'])) { 
 							if($_SESSION['user']['role'] == 0) { ?>
+								<a class="nav-link text-white" href="customerDashboard.php">Home</a>
+							</li>
+							<li class="nav-item pull-sm-right">
 								<a class="nav-link text-white" href="logout.php">Logout</a>
 							<?php }
+							else { ?>
+								<a class="nav-link text-white" href="login.php">Login</a>
+							<?php } 
 						}
 						else { ?>
 							<a class="nav-link text-white" href="login.php">Login</a>
@@ -53,7 +65,7 @@ $arr1 = $location->getAvailableLocation($db->conn);
 		</div>
 		<div class="row t">
 			<div class="left col-lg-4">
-				<h1 class="text-center" href="#"><span class="clr">CITY TAXY</span></h1>
+				<h1 class="text-center" href="#"><span class="clr">CITY TAXI</span></h1>
 				<p class="text-center para"><strong>Your everyday travel partner</strong></p>
 				<p class="text-center">AC Cab for point to point travel</p>
 				<div class="input-group mb-3">
@@ -101,7 +113,7 @@ $arr1 = $location->getAvailableLocation($db->conn);
 					<div class="input-group-prepend">
 						<span class="luggage input-group-text">luggage</span>
 					</div>
-					<input type="text" name="txt" class="txt form-control" placeholder="Enter wt in KG" name="username">
+					<input type="text" name="txt" class="txt form-control" placeholder="Enter wt in KG">
 					<p class="err"></p>
 				</div>
 				<button type="button" name="calculate" class="btn btn-primary mb-3">Calculate fare</button>
@@ -153,14 +165,7 @@ $arr1 = $location->getAvailableLocation($db->conn);
 				dataType: "JSON",
 				success:function( msg ) {
 					if(msg != "") {
-						html = '<div class="right">'+
-						'<h2 class="text-center">Status</h2>'+
-						'<p>Your Location:"'+msg["from"]+'"" </p>'+
-						'<p>Drop Location : "'+msg["to"]+'"</p>'+
-						'<p>Total distance : '+msg['totaldistance']+'</p>'+
-						'<p>Total Fare :'+msg['totalfare']+'</p>'+
-						'<p>Status : '+msg['status']+'<a class="close">close</a></p></div>';
-						$(".mid").html(html);
+						window.location.href = "customerDashboard.php";
 					}
 					else {
 						window.location.href = "login.php";
@@ -176,17 +181,18 @@ $arr1 = $location->getAvailableLocation($db->conn);
 				var cab = $(".cab").val();
 				if(cab === "CedMicro") {
 					$('.txt').attr('disabled', 'disabled');
+					$('.txt').val("");
+					alert("luggage is not available for CedMicro");
 				}
 				else {
 					$( ".txt" ).prop( "disabled", false );
 				}
 			});
-			$(".txt").keypress(function (e) {
-				if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
-					$(".err").html("Digits Only").show().css('color' , 'red');
-				}
-				else {
-					$(".err").html("Digits Only").hide();
+			$('.txt').on("input", function() {
+				var checkfornumber = $('.txt').val();
+				if (isNaN(checkfornumber)) {
+					$('.txt').val("");
+					alert("enter only number");
 				}
 			});
 			$('.btn').click(function(ev){
@@ -195,7 +201,9 @@ $arr1 = $location->getAvailableLocation($db->conn);
 				var drop = $(".drop").val();
 				var cab = $('.cab').val();
 				var wt = $('.txt').val();
-				//console.log(wt);
+				if(wt == "") {
+					wt = "no luggage ";
+				}
 				var html = '';
 				if(pickup != "" && drop != "" && cab !="") {
 					if(cab == "CedMicro") {
@@ -208,8 +216,11 @@ $arr1 = $location->getAvailableLocation($db->conn);
 								if(msg['distance'] !=0) {
 									html= '<div class="right">'+
 									'<h2 class="text-center">Calculate Fare</h2>'+
-									'<p>Your Location : "'+pickup+'"</p><p>Drop Location : "'+drop+'"</p><p>Cab Type : "'+cab+'"</p>'+
-									'<p>Total Fare :"'+msg['totalfare']+'"</p>'+
+									'<p>Your Location : "'+pickup+'"</p>'+
+									'<p>Drop Location : "'+drop+'"</p>'+
+									'<p>Cab Type : "'+cab+'"</p>'+
+									'<p>Distance : '+msg['distance']+'km</p>'+
+									'<p>Total Fare :'+msg['totalfare']+'Rs</p>'+
 									'<p><input data-pickup ="'+pickup+'" data-drop="'+drop+'" data-cab='+cab+' data-wt="'+msg['luggage']+'" data-distance='+msg['distance']+' data-fare='+msg['totalfare']+' type="button" name="book" class="book" value="Book Now">'+
 									'<input type="button" name="cancel" class="close" value="Cancel"></p>'+
 									'</div>';
@@ -225,6 +236,7 @@ $arr1 = $location->getAvailableLocation($db->conn);
 						});
 					}
 					else {
+						
 						$.ajax({
 							type: "POST",
 							url: "request.php",
@@ -234,32 +246,29 @@ $arr1 = $location->getAvailableLocation($db->conn);
 								if(msg['distance'] !=0) {
 									html= "<div class='right'>"+
 									"<h2 class='text-center'>Calculate Fare</h2>"+
-									"<p>Your Location : '"+pickup+"'</p><p>Drop Location : '"+drop+"'</p><p>Cab Type : '"+cab+"'</p>"+
-									"<p>Total Fare :'"+msg['totalfare']+"'</p>"+
+									"<p>Your Location : '"+pickup+"'</p>"+
+									"<p>Drop Location : '"+drop+"'</p><p>Cab Type : '"+cab+"'</p>"+
+									"<p>Distance :"+msg['distance']+"km</p>"+
+									"<p>Luggage :"+msg['luggage']+"kg</p>"+
+									"<p>Total Fare :"+msg['totalfare']+"Rs</p>"+
 									"<p><input data-pickup ='"+pickup+"' data-drop="+drop+" data-wt='"+msg['luggage']+"' data-cab="+cab+" data-distance="+msg['distance']+" data-fare="+msg['totalfare']+" type='button' name='book' class='book' value='Book Now'>"+
 									"<input type='button' name='cancel' class='close' value='Cancel'></p>"+
 									"</div>";
-									console.log(html);
 									$(".mid").html(html);
 								}
 								else {
-									html= "<div class='right'>"+
-									"<h2 class='text-center'>Calculate Fare</h2>"+
-									"<p>Your Location : '"+pickup+"'</p><p>Drop Location : '"+drop+"'</p><p>Cab Type : '"+cab+"'</p>"+
-									"<p>Total Fare :'"+msg['totalfare']+"'</p>"+
-									"</div>";
-								//console.log(html);
-								$(".mid").html(html);
+									alert("Please change location");
+								}
+							},
+							error:function() {
+								alert("error");
 							}
-						},
-						error:function() {
-							alert("error");
-						}
-					});
+						});
+
 					}
 				}
 				else {
-					alert("Please fill all fields");
+					alert("Please fill all field");
 				}
 			});
 		});

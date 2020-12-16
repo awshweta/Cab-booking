@@ -32,7 +32,7 @@ class User
 			}
 			return $ret;
 		}else {
-			$ret = 'Duplicate username does not exist';
+			$ret = 'Username already exist';
 			return $ret;
 		}
 		$conn->close();
@@ -44,24 +44,29 @@ class User
 		$admin ="";
 		$error = "";
 		$success = "";
-		$sql = "SELECT * FROM user WHERE `user_name`='$username' AND `password`='$pass' AND `isblock` = 1";
+		$sql = "SELECT * FROM user WHERE `user_name`='$username' AND `password`='$pass'";
 		$result = $conn->query($sql);
 		if($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()){
-				setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
-				$_SESSION['user'] = array('user_name'=>$username ,'id'=>$row['id'] , 'role'=>$row['isadmin']);
-				if($row['isadmin'] == 1) {
-					$admin = "yes";
+				if($row['isblock'] == 1) {
+					setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/");
+					$_SESSION['user'] = array('user_name'=>$username ,'id'=>$row['id'] , 'role'=>$row['isadmin']);
+					if($row['isadmin'] == 1) {
+						$admin = "yes";
+					}
+					if($row['isadmin'] == 0){
+						$admin = "no";
+					}
+					$success = "login successfully";
 				}
-				if($row['isadmin'] == 0){
-					$admin = "no";
+				else {
+					$error = "You are not approved by admin.";
 				}
-				$success = "login successfully";
 			}
 		}
 		else
 		{
-			$error = 'Invalid login details or You are not approved by admin.';
+			$error = 'Invalid login details';
 		}
 		$arr = array('admin'=> $admin ,'error'=>$error , 'success' => $success);
 		return $arr;
@@ -79,6 +84,17 @@ class User
 	}
 	public function fetchAllUserAscName($conn) {
 		$sql = "SELECT *  FROM user WHERE `isadmin` = 0 ORDER BY `name`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	
+	public function fetchApproveUserAscName($conn) {
+		$sql = "SELECT *  FROM user WHERE `isadmin` = 0 AND `isblock` = 1 ORDER BY `name`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchApproveUserDescName($conn) {
+		$sql = "SELECT *  FROM user WHERE `isadmin` = 0 AND `isblock` = 1 ORDER BY `name` DESC";
 		$result = $conn->query($sql);
 		return $result;
 	}

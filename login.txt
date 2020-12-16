@@ -1,0 +1,5 @@
+ Admin-
+username- admin , Password-Password123$
+
+Customer - 
+username-shweta , Password-shweta123

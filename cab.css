@@ -161,3 +161,13 @@ nav h1 span {
 		font-size: 15px;
 	}
 }
+.txt::-webkit-inner-spin-button, 
+.txt::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.txt {
+  -moz-appearance: textfield;
+}

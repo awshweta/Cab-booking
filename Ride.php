@@ -1,6 +1,14 @@
 <?php
 include_once("DbConnect.php");
 class Ride {
+	public $from;
+	public $to;
+	public $cab_type;
+	public $totaldistance;
+	public $totalfare;
+	public $luggage;
+	public $status;
+
 	public function getdistance($a , $b) {
 		if($a >= $b) {
 			$d = $a - $b;
@@ -177,6 +185,61 @@ class Ride {
 		$result = $conn->query($sql);
 		return $result;
 	}
+	public function fetchAscDatePendingRide($conn) {
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 ORDER BY `date`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchDescDatePendingRide($conn) {
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 ORDER BY `date` DESC";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchAscFarePendingRide($conn) {
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 ORDER BY `totalfare`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchDescFarePendingRide($conn) {
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 ORDER BY `totalfare` DESC";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchAscDateCustomerPendingRide($conn) {
+		$id = $_SESSION['user']['id'];
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 AND `user_id` ='$id' ORDER BY `date`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchAscFareCustomerPendingRide($conn) {
+		$id = $_SESSION['user']['id'];
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 AND `user_id` ='$id' ORDER BY `totalfare`";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchDescFareCustomerPendingRide($conn) {
+		$id = $_SESSION['user']['id'];
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 AND `user_id` ='$id' ORDER BY `totalfare` DESC";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchDescDateCustomerPendingRide($conn) {
+		$id = $_SESSION['user']['id'];
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 AND `user_id` ='$id' ORDER BY `date` DESC";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchLastPendingRequest($conn) {
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 ORDER BY `id` DESC LIMIT 1";
+		$result = $conn->query($sql);
+		return $result;
+	}
+	public function fetchLastPendingCustomerRequest($conn) {
+		$id = $_SESSION['user']['id'];
+		$sql = "SELECT *  FROM ride WHERE `status` = 1 AND `user_id`='$id' ORDER BY `id` DESC LIMIT 1";
+		$result = $conn->query($sql);
+		return $result;
+	}
 	public function fetchRideRequest($conn) {
 		$sql = "SELECT *  FROM ride WHERE `status` = 1";
 		$result = $conn->query($sql);
@@ -337,9 +400,50 @@ class Ride {
 			return $result;
 		}
 	}
+	public function sortallPendingRide($cab, $conn) {
+		$status = 1;
+		if($cab == "LastWeek") {
+			$sql ="SELECT * FROM ride
+			WHERE `status`='$status' AND `date` BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW()";
+			$result = $conn->query($sql);
+			return $result;
+		}
+		else if($cab == "LastMonth") {
+			$sql = "SELECT * FROM ride
+			WHERE `status`='$status' AND `date` >= (CURRENT_DATE - INTERVAL 1 MONTH)";
+			$result = $conn->query($sql);
+			return $result;
+		}
+		else {
+			$sql = "SELECT *  FROM ride WHERE `status`='$status' AND `cab_type`='$cab'";
+			$result = $conn->query($sql);
+			return $result;
+		}
+	}
 	public function sortCustomerCompletedRide($cab, $conn) {
 		$id = $_SESSION['user']['id'];
 		$status = 2;
+		if($cab == "LastWeek") {
+			$sql ="SELECT * FROM ride
+			WHERE `status`='$status' AND `user_id`='$id' AND `date` BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW()";
+			$result = $conn->query($sql);
+			return $result;
+		}
+		else if($cab == "LastMonth") {
+			$sql = "SELECT * FROM ride
+			WHERE `status`='$status' AND `user_id`='$id' AND `date` >= (CURRENT_DATE - INTERVAL 1 MONTH)";
+			$result = $conn->query($sql);
+			return $result;
+		}
+		else {
+			$sql = "SELECT *  FROM ride WHERE `status`='$status' AND `user_id`='$id' AND `cab_type`='$cab'";
+			$result = $conn->query($sql);
+			return $result;
+		}
+	}
+	public function sortCustomerPendingRide($cab, $conn) {
+		$id = $_SESSION['user']['id'];
+		$status = 1;
 		if($cab == "LastWeek") {
 			$sql ="SELECT * FROM ride
 			WHERE `status`='$status' AND `user_id`='$id' AND `date` BETWEEN (NOW() - INTERVAL 7 DAY) AND NOW()";

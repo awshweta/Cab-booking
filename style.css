@@ -1,6 +1,6 @@
 #nav {
     list-style-type: none;
-     margin-left:20%; 
+    margin-left:20%; 
 }
 #nav li {
     display: block;
@@ -13,7 +13,7 @@
     font-size: 18px;
 }
 #nav li:hover {
-    background: green;
+    background: #5a5a8c;
 }
 #nav dl {
     margin-bottom: 0;
@@ -24,14 +24,13 @@
     left: 0;
     display: none;
 }
-
 #nav li:hover ul {
     display: block;
     text-align: center;
 }
 #navbar {
     list-style-type: none;
-     margin-left:20%; 
+    margin-left:20%; 
 }
 #navbar li {
     display: block;
@@ -67,15 +66,21 @@
 header {
     position: fixed;
     width: 100%;
-    background-color: black;
+    background-color: #343a40;
 }
-header h1 {
-    width:40%;
+header .a {
+    width:60%;
     float: left;
     color:white;
-    padding:10px;
+    padding:12px;
     font-family:arial ;
-    font-size: 25px;
+    font-size: 22px;
+    margin-left: 3%;
+}
+header .b {
+ color: #1564c7;
+ font-size: 22px;
+ padding-left: 5px;
 }
 #mid {
     padding-top: 48px;
@@ -104,16 +109,16 @@ header h1 {
     width: 80%;
     height:auto;
     float: right;
-     margin-bottom: 70px;
+    margin-bottom: 70px;
 }
 footer {
-   position: fixed;
-   left: 0;
-   bottom: 2%;
-   width: 100%;
-   background-color: black;
-   color: white;
-   text-align: center;
+ position: fixed;
+ left: 0;
+ bottom: 0%;
+ width: 100%;
+ background-color: black;
+ color: white;
+ text-align: center;
 }
 footer p {
     text-align: center;
@@ -127,8 +132,7 @@ footer p {
 }
 .tiles .part {
     width: 18%;
-    margin-top: 2%;
-    margin-left:5%;
+    margin: 2.5% 3%;
     height: 170px;
     float: left;
     background-color: #11a43d;
@@ -152,8 +156,7 @@ footer p {
 }
 .tilesCustomer .part {
     width: 18%;
-    margin-top: 2%;
-    margin-left:5%;
+    margin: 2.5% 3%;
     height: 170px;
     float: left;
     background-color: #5a5a8c;
@@ -172,12 +175,12 @@ footer p {
     color:green;
 }
 header ul {
-    width:50%;
+    width:30%;
     float: left; 
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 header li {
@@ -192,19 +195,19 @@ header li a {
   text-decoration: none;
 }
 .active {
-  background-color: #4CAF50;
+  background-color: green;
 }
 #desc {
     color:black;
 }
 #wrapper {
     text-align: center;
-    margin-top: 5%;
+    padding-top: 5%;
 }
 #form {
     background-color: rgba(201, 191, 191, 0.883);
     margin:0% 30%;
-    padding: 5%;
+    padding: 3%;
     font-size: 20px;
     border-radius: 8%;
 }
@@ -212,18 +215,18 @@ header li a {
     padding: 2%;
 }
 #form input {
-    width: 70%;
-    padding: 5px;
+    width: 60%;
+    padding: 4px;
 }
 .login {
     width: 90%;
 }
 #form .name {
-    margin-left: 30px;
+    margin-left:10px;
 }
 .register {
     width: 90%;
-    padding: 5px;
+    padding: 4px;
 }
 .form {
     padding: 3%;
@@ -267,8 +270,31 @@ header li a {
 .tbl th {
   padding-top: 12px;
   padding-bottom: 12px;
-  text-align: left;
+  text-align: center;
   background-color: #339933;
+  color: white;
+}
+.tblCustomer {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+}
+
+.tblCustomer td, .tbl th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.tblCustomer tr:nth-child(even){background-color: #f2f2f2;}
+
+.tblCustomer tr:hover {background-color: #ddd;}
+
+.tblCustomer th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #5a5a8c;
   color: white;
 }
 .sort {
@@ -289,7 +315,25 @@ header li a {
     padding: 1.5%;
 }
 .invoicedetail .print {
-   padding: 5px 20px;
-   border-radius: 4px;
-   font-size: 15px;
+ padding: 5px 20px;
+ border-radius: 4px;
+ font-size: 15px;
+}
+#header {
+    margin: 0px;
+    padding: 0px;
+}
+.mobile::-webkit-inner-spin-button, 
+.mobile::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+.mobile {
+    -moz-appearance: textfield;
+}
+.error {
+    color:red;
+    font-size: 15px;
 }

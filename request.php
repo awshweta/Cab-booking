@@ -4,8 +4,8 @@ include_once("User.php");
 include_once("Location.php");
 if(isset($_POST['action'])) {
 	if($_POST['action'] == 'calculatefare'){
-		$pickup = isset($_POST['pickup']) ? $_POST['pickup'] : '';
-		$drop = isset($_POST['drop']) ? $_POST['drop'] : '';
+		$pickup = isset($_POST["pickup"]) ? $_POST["pickup"] : '';
+		$drop = isset($_POST["drop"]) ? $_POST["drop"] : '';
 		$wt = isset($_POST['wt']) ? $_POST['wt'] : 0 ;
 		$cab = isset($_POST['cab']) ? $_POST['cab'] :'';
 		$ride = new Ride();
@@ -13,8 +13,8 @@ if(isset($_POST['action'])) {
 		echo json_encode($arr);
 	}
 	if($_POST['action'] == 'booking') {
-		$pickup = $_POST['pickup'];
-		$drop =$_POST['drop'];
+		$pickup = $_POST["pickup"];
+		$drop =$_POST["drop"];
 		$wt = $_POST['wt'];
 		$cab = $_POST['cab'];
 		$distance = $_POST['distance'];
@@ -27,6 +27,8 @@ if(isset($_POST['action'])) {
 		}
 		else {
 			$_SESSION['ride'] = array('pickup'=>$pickup ,'drop'=>$drop , 'distance'=>$distance ,'cab'=>$cab ,'wt'=>$wt ,'fare'=>$fare);
+			$_SESSION['start'] = time();
+            $_SESSION['expire'] = $_SESSION['start'] + (3 * 60);
 			$arr = '';
 		}
 		echo json_encode($arr);
@@ -251,6 +253,32 @@ if(isset($_POST['action'])) {
 		}
 		echo json_encode($data);
 	}
+	if($_POST['action'] == 'sortCustomerPendingRide') {
+		$cab = $_POST['val'];
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->sortCustomerPendingRide($cab, $db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'sortallPendingRide') {
+		$cab = $_POST['val'];
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->sortallPendingRide($cab, $db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
 	if($_POST['action'] == 'descCompletedRide') {
 		$db = new DbConnect();
 		$ride = new Ride();
@@ -292,6 +320,126 @@ if(isset($_POST['action'])) {
 		$ride = new Ride();
 		$data = array();
 		$arr = $ride->fetchPendingRequest($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'ascDateCustomerPending') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchAscDateCustomerPendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'ascFareCustomerPending') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchAscFareCustomerPendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'descDateCustomerPending') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchDescDateCustomerPendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'descFareCustomerPending') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchDescFareCustomerPendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'ascDatePendingRide') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchAscDatePendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'descDatePendingRide') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchDescDatePendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'ascFarePendingRide') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchAscFarePendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'descFarePendingRide') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchDescFarePendingRide($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'lastPendingRide') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchLastPendingRequest($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'lastPendingCustomerRide') {
+		$db = new DbConnect();
+		$ride = new Ride();
+		$data = array();
+		$arr = $ride->fetchLastPendingCustomerRequest($db->conn);
 		if($arr->num_rows > 0) {
 			while($row = $arr->fetch_assoc()){
 				$data[] = $row;
@@ -436,6 +584,30 @@ if(isset($_POST['action'])) {
 		$user = new User();
 		$data = array();
 		$arr = $user->fetchAllUserDescName($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'ascApproveName') {
+		$db = new DbConnect();
+		$user = new User();
+		$data = array();
+		$arr = $user->fetchApproveUserAscName($db->conn);
+		if($arr->num_rows > 0) {
+			while($row = $arr->fetch_assoc()){
+				$data[] = $row;
+			}
+		}
+		echo json_encode($data);
+	}
+	if($_POST['action'] == 'descApproveName') {
+		$db = new DbConnect();
+		$user = new User();
+		$data = array();
+		$arr = $user->fetchApproveUserDescName($db->conn);
 		if($arr->num_rows > 0) {
 			while($row = $arr->fetch_assoc()){
 				$data[] = $row;

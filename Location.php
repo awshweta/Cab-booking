@@ -4,15 +4,35 @@ class Location
 {
 	public $location;
 	public $distance;
+	public $name;
+	public $is_available;
 
 	public function add($name , $distance , $conn) {
-		$sql = "INSERT INTO location(`name`,`distance`,`is_available`) VALUES ('".$name."', '".$distance."' ,1)";
-		if ($conn->query($sql) === true) {
-			$ret = "Location added successfully";
-		} else {
-			$ret =$conn->error;
+		$r = false;
+		$success ="";
+		$error ="";
+		$sqlselect = "SELECT * FROM location";
+		$result = $conn->query($sqlselect);
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()) {
+				if($row['name'] == $name){
+					$r=true;
+				}
+			}
 		}
-		return $ret;
+		if($r == false) {
+			$sql = "INSERT INTO location(`name`,`distance`,`is_available`) VALUES ('".$name."', '".$distance."' ,1)";
+			if ($conn->query($sql) === true) {
+				$success = "Location added successfully";
+			} else {
+				$error =$conn->error;
+			}
+		}
+		else {
+			$error = "location name already exist";
+		}
+		$arr = array('success' => $success , 'error'=>$error);
+		return $arr;
 		$conn->close(); 
 	}
 	public function getLocation($conn) {
@@ -26,7 +46,7 @@ class Location
 		return $result;
 	}
 	public function deleteLocation($id , $conn) {
-		$sql = "DELETE FROM location WHERE `id`='$id' AND is_available = 1";
+		$sql = "DELETE FROM location WHERE `id`='$id'";
 		if ($conn->query($sql) === TRUE) {
 			$ret = "Record deleted successfully";
 		} else {
@@ -58,13 +78,31 @@ class Location
 		return $result;
 	}
 	public function saveLocation($id , $name , $distance , $conn) {
-		$sql = "UPDATE location SET `name`='$name', `distance`='$distance' WHERE `id`='$id'";
-		if ($conn->query($sql) === TRUE) {
-			$ret = "Location updated successfully";
-		} else {
-			$ret = "Error updating record: " . $conn->error;
+		$success ="";
+		$error = "";
+		$r = false;
+		$sqlselect = "SELECT * FROM location";
+		$result = $conn->query($sqlselect);
+		if($result->num_rows > 0){
+			while($row = $result->fetch_assoc()) {
+				if($row['name'] == $name && $row['id'] != $id){
+					$r=true;
+				}
+			}
 		}
-		return $ret;
+		if($r == false) {
+			$sql = "UPDATE location SET `name`='$name', `distance`='$distance' WHERE `id`='$id'";
+			if ($conn->query($sql) === TRUE) {
+				$success = "Location updated successfully";
+			} else {
+				$error = "Error updating record: " . $conn->error;
+			}
+		}
+		else {
+			$error = "Location name already exixt";
+		}
+		$arr = array('success' => $success , 'error'=>$error);
+		return $arr;
 	}
 }
 ?>
